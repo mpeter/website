@@ -12,7 +12,7 @@ Four surgical text corrections across four documentation pages:
 
 2. **`/unleash` branch support** (#54): `common-workflows.md` states `/unleash` rejects `opsx/*` branches. Since Spec 031, `/unleash` supports both `NNN-*` and `opsx/*` branches. Fix in `common-workflows.md`.
 
-3. **`uf init` file count and breakdown** (#55): `developer.md` states "approximately 50 files" and lists stale command/agent counts. Correct to ~35 files, update the breakdown table to reflect externalized Speckit commands and added content personas.
+3. **`uf init` file count and breakdown** (#55): `developer.md` states "approximately 50 files" and lists stale command/agent counts. Correct to ~35 files, update the breakdown table to reflect externalized previous workflow commands and added content personas.
 
 4. **`mxf` install instruction** (#56): `product-manager.md` implies `mxf` is bundled with the `unbound-force` Homebrew package. It's a separate formula. Correct the install instruction.
 
@@ -40,7 +40,7 @@ Four surgical text corrections across four documentation pages:
 
 ## Constitution Alignment
 
-Assessed against the Unbound Force website project constitution (`.specify/memory/constitution.md`).
+Assessed against the Unbound Force website project constitution (`openspec/constitution.md`).
 
 ### I. Content Accuracy
 

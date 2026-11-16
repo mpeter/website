@@ -21,7 +21,3 @@ All links MUST point to pages that exist on the current branch.
 - **GIVEN** all pages are modified with cross-reference additions
 - **WHEN** `npm run build` is executed
 - **THEN** the build completes successfully
-
-## REMOVED Requirements
-
-None.

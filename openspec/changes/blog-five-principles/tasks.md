@@ -3,7 +3,7 @@
 - [x] 1.1 Create `content/blog/five-principles-every-ai-agent-harness-discovers.md` with blog frontmatter (title, description, lead, slug, date, draft: false, weight, toc, categories, tags, contributors)
 - [x] 1.2 Write introduction section (the problem: teams rediscovering the same principles independently)
 - [x] 1.3 Write Principle 1: Context Beats Instructions (three-tier context system: AGENTS.md + convention packs + Dewey)
-- [x] 1.4 Write Principle 2: Plan/Execute Separation (8-phase Speckit pipeline, phase boundaries, spec commit gate)
+- [x] 1.4 Write Principle 2: Plan/Execute Separation (8-phase previous workflow pipeline, phase boundaries, spec commit gate)
 - [x] 1.5 Write Principle 3: Feedback Loops (layered CI → Gaze → Divisor Council, computational then inferential)
 - [x] 1.6 Write Principle 4: One Thing at a Time (sequential task completion, phase boundaries at spec level)
 - [x] 1.7 Write Principle 5: Codebase as Documentation (AGENTS.md, embed.FS scaffold, drift detection)

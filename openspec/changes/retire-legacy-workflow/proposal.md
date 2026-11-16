@@ -13,9 +13,11 @@ historical planning records and their original completion states.
 ## Capabilities
 
 ### New Capabilities
+
 - `repository-workflow`: One requirements authority with preserved planning history.
 
 ### Modified Capabilities
+
 - None. This repository publishes a static website, not a command installer.
 
 ## Impact

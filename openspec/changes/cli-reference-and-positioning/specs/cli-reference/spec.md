@@ -53,7 +53,7 @@ The website navigation MUST include a "Reference" section in the docs sidebar co
 
 The stack positioning table on the getting-started index page (`content/docs/getting-started/_index.md`) and quick-start page (`content/docs/getting-started/quick-start.md`) MUST include the `uf` CLI as a layer.
 
-Previously: The stack table listed 3 layers (Agent: OpenCode, Planning: Speckit, Coordination: Replicator). The heading "Three Tools, One Workflow" and surrounding prose MUST be updated to reflect the 4-layer model.
+Previously: The stack table listed 3 layers (Agent: OpenCode, Planning: previous workflow, Coordination: Replicator). The heading "Three Tools, One Workflow" and surrounding prose MUST be updated to reflect the 4-layer model.
 
 The updated table MUST show 4 layers:
 
@@ -61,7 +61,7 @@ The updated table MUST show 4 layers:
 |-------|------|-------------|
 | CLI | `uf` | Project scaffolding, environment setup, health checks, configuration, sandboxed execution, LLM gateway |
 | Agent | OpenCode | AI coding environment |
-| Planning | Speckit | Specification pipeline |
+| Planning | previous workflow | Specification pipeline |
 | Coordination | Replicator | Multi-agent coordination |
 
 #### Scenario: user reads stack table on getting-started pages
@@ -83,7 +83,3 @@ Previously: The table listed 6 personas without scoping the header.
 - **GIVEN** a user reads the Code Review persona table
 - **WHEN** they see the 6-persona list
 - **THEN** a note MUST clarify that the 3 content personas (Scribe, Herald, Envoy) are invoked separately for content creation tasks and do not participate in code review
-
-## REMOVED Requirements
-
-_None._

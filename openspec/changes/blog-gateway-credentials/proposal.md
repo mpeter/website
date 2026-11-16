@@ -36,7 +36,7 @@ A new blog post at `content/blog/gateway-credentials.md` with the narrative arc:
 
 ## Constitution Alignment
 
-Assessed against the Unbound Force website project constitution (`.specify/memory/constitution.md`).
+Assessed against the Unbound Force website project constitution (`openspec/constitution.md`).
 
 ### I. Content Accuracy
 

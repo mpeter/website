@@ -58,7 +58,3 @@ Previously: The page mentioned `.uf/config.yaml` without referencing the command
 - **WHEN** they see `.uf/config.yaml` mentioned
 - **THEN** a reference to `uf config init` and `uf config validate` MUST be present
 - **AND** a link to the full configuration docs page SHOULD be included
-
-## REMOVED Requirements
-
-_None._

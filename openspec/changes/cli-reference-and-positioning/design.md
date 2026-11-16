@@ -1,6 +1,6 @@
 ## Context
 
-The `uf` CLI is the primary user interface for Unbound Force — it installs, configures, and manages OpenCode, Speckit, and Replicator. Despite having 6 command groups and 15+ subcommands, the website only documents `init`, `setup`, and `doctor` scattered across getting-started pages. There is no single reference page and no changelog.
+The `uf` CLI is the primary user interface for Unbound Force — it installs, configures, and manages OpenCode, previous workflow, and Replicator. Despite having 6 command groups and 15+ subcommands, the website only documents `init`, `setup`, and `doctor` scattered across getting-started pages. There is no single reference page and no changelog.
 
 ## Goals / Non-Goals
 

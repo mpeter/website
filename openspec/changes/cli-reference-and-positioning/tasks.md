@@ -22,8 +22,8 @@
 
 - [x] 5.1 Run `npm run build` and confirm no build errors
 - [x] 5.2 Run `uf --help` and `uf <command> --help` for all command groups; verify the CLI reference page matches the actual command names, subcommands, and primary flags
-- [ ] 5.3 Run `npm run dev` and verify: CLI reference page renders with all command groups and version marker, changelog page renders with current release, stack table shows 4 layers on getting-started index and quick-start, Reference and Changelog sections appear in navigation
+- [ ] 5.3 Run `npm run dev` and verify: CLI reference page renders with all command groups and version marker, changelog page renders with current release, stack table shows 4 layers on getting-started index and quick-start, Reference and Changelog sections appear in navigation (unverified: completion evidence not established during migration)
 - [x] 5.4 Verify all internal links in new pages resolve to existing pages (no dead links)
-- [ ] 5.5 Verify both light and dark mode rendering for new pages
+- [ ] 5.5 Verify both light and dark mode rendering for new pages (unverified: completion evidence not established during migration)
 <!-- spec-review: passed -->
 <!-- code-review: passed -->

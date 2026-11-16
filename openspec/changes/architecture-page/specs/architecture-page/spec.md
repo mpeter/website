@@ -9,7 +9,7 @@ The page MUST cover the following architectural concepts:
 2. Layered governance model (constitution > convention packs > agent personas > commands > CI)
 3. Control matrix (feedforward/feedback x computational/inferential)
 4. Doer/judge separation (tool access restrictions on review agents)
-5. Plan/execute separation (8-phase Speckit pipeline with hard gates)
+5. Plan/execute separation (8-phase previous workflow pipeline with hard gates)
 6. Composability (independently useful components, graceful degradation)
 
 The page MUST use standard Hugo/Doks Markdown with YAML frontmatter. No custom HTML, CSS, or template overrides.
@@ -51,11 +51,3 @@ The page MUST only link to pages that exist on the current branch. Cross-referen
 - **GIVEN** the architecture page contains links to other documentation pages
 - **WHEN** a visitor clicks any cross-reference link
 - **THEN** the link resolves to an existing page (no 404 errors)
-
-## MODIFIED Requirements
-
-None.
-
-## REMOVED Requirements
-
-None.

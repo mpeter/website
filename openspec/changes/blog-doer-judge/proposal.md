@@ -28,7 +28,7 @@ GitHub Issue: #91
 
 ## Constitution Alignment
 
-Assessed against the **Unbound Force Website** constitution (.specify/memory/constitution.md).
+Assessed against the **Unbound Force Website** constitution (openspec/constitution.md).
 
 ### I. Content Accuracy
 

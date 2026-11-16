@@ -81,7 +81,3 @@ The common-workflows.md setup section MUST NOT list ".hive/ initialization" as a
 - **GIVEN** a developer reading the environment setup section
 - **WHEN** they look at what `uf setup` installs
 - **THEN** ".hive/ initialization" is not listed as a separate tool (it's handled by `replicator init` via `uf init`)
-
-## REMOVED Requirements
-
-_(None — all changes are additions or modifications)_

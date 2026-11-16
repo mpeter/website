@@ -1,6 +1,6 @@
 ## Why
 
-The `uf` CLI has grown to 6 command groups with 15+ subcommands, but the website has no single CLI reference page. Users looking for "what can `uf` do?" have no landing page. Additionally, the website's "Three Tools" stack table (OpenCode + Speckit + Replicator) omits the CLI layer entirely, and there is no changelog or "what's new" page despite 84+ commits shipping since v0.12.0.
+The `uf` CLI has grown to 6 command groups with 15+ subcommands, but the website has no single CLI reference page. Users looking for "what can `uf` do?" have no landing page. Additionally, the website's "Three Tools" stack table (OpenCode + previous workflow + Replicator) omits the CLI layer entirely, and there is no changelog or "what's new" page despite 84+ commits shipping since v0.12.0.
 
 This change addresses GitHub issues #62 (CLI reference page) and #68 (changelog page + stack positioning).
 
@@ -39,7 +39,7 @@ This change addresses GitHub issues #62 (CLI reference page) and #68 (changelog 
 
 ## Constitution Alignment
 
-Assessed against the Unbound Force website project constitution (`.specify/memory/constitution.md`).
+Assessed against the Unbound Force website project constitution (`openspec/constitution.md`).
 
 ### I. Content Accuracy
 

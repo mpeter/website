@@ -48,7 +48,7 @@ Previously: `/unleash` was described as rejecting `opsx/*` branches.
 
 - **GIVEN** a user visits the Common Workflows page
 - **WHEN** they read the `/unleash` section
-- **THEN** the text MUST state that `/unleash` works with both Speckit (`NNN-*`) and OpenSpec (`opsx/*`) branches
+- **THEN** the text MUST state that `/unleash` works with both previous workflow (`NNN-*`) and OpenSpec (`opsx/*`) branches
 - **AND** MUST explain that for OpenSpec branches, it detects the change name and reads tasks from `openspec/changes/<name>/tasks.md`
 
 ### Requirement: uf-init-file-count-accuracy
@@ -77,7 +77,3 @@ Previously: Install instruction stated `brew install unbound-force/tap/unbound-f
 - **WHEN** they read the Mx F installation section
 - **THEN** the instruction MUST show `brew install unbound-force/tap/mxf` as the direct install
 - **AND** MAY show `uf setup` as an alternative that installs the full toolchain
-
-## REMOVED Requirements
-
-_None._

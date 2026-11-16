@@ -26,7 +26,7 @@
 - [x] 5.2 Run `npm run build` and confirm no build errors
 - [x] 5.3 Verify the tutorial page appears in the Getting Started sidebar
 - [x] 5.4 Verify all internal links resolve (no dead links)
-- [ ] 5.5 Run `npm run dev` and verify the tutorial renders correctly
-- [ ] 5.6 Verify both light and dark mode rendering
+- [ ] 5.5 Run `npm run dev` and verify the tutorial renders correctly (unverified: completion evidence not established during migration)
+- [ ] 5.6 Verify both light and dark mode rendering (unverified: completion evidence not established during migration)
 <!-- spec-review: passed -->
 <!-- code-review: passed -->
