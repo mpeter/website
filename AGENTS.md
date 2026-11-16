@@ -38,14 +38,11 @@ There is no test suite. Validation is manual:
 
 ```
 website/
-├── .specify/
-│   ├── memory/
-│   │   └── constitution.md        # Governance document (highest authority)
-│   ├── templates/                 # Templates for spec artifacts
-│   └── scripts/bash/              # Automation scripts
-├── specs/                         # Feature specifications (numbered)
-│   ├── 001-feature-name/          # spec.md, plan.md, tasks.md
-│   └── 002-another-feature/       # spec.md
+├── openspec/
+│   ├── constitution.md            # Governance document (highest authority)
+│   ├── config.yaml                # OpenSpec schema and artifact rules
+│   ├── specs/                     # Current capability specifications
+│   └── changes/                   # Change proposals, designs, specs, and tasks
 ├── assets/scss/common/
 │   ├── _variables-custom.scss     # Theme colors, fonts (Bootstrap vars)
 │   └── _custom.scss               # Additional custom CSS rules
@@ -165,7 +162,7 @@ Agents MUST NOT modify values that serve as quality or governance gates to make 
 3. **Convention pack rule classifications** — MUST/SHOULD/MAY designations on convention pack rules (downgrading MUST to SHOULD is prohibited)
 4. **CI flags and linter configuration** — `-race`, `-count=1`, `govulncheck`, `golangci-lint` rules, pinned action SHAs
 5. **Agent temperature and tool-access settings** — frontmatter `temperature`, `tools.write`, `tools.edit`, `tools.bash` restrictions
-6. **Constitution MUST rules** — any MUST rule in `.specify/memory/constitution.md` or hero constitutions
+6. **Constitution MUST rules** — any MUST rule in `openspec/constitution.md` or hero constitutions
 7. **Review iteration limits and worker concurrency** — max review iterations, max concurrent Swarm workers, retry limits
 8. **Workflow gate markers** — `<!-- spec-review: passed -->`, task completion checkboxes used as gates, phase checkpoint requirements
 
@@ -175,8 +172,8 @@ Agents MUST NOT modify values that serve as quality or governance gates to make 
 
 Agents MUST NOT cross workflow phase boundaries:
 
-- **Specify/Clarify/Plan/Tasks/Analyze/Checklist** phases: spec artifacts ONLY (`specs/NNN-*/` directory). No source code, test, agent, command, or config changes.
-- **Implement** phase: source code changes allowed, guided by spec artifacts.
+- **Proposal/Design/Specs/Tasks** phases: planning artifacts ONLY under `openspec/changes/<change-name>/`. No source code, test, agent, command, or config changes.
+- **Apply** phase: implementation changes allowed, guided by the change's artifacts and tasks.
 - **Review** phase: findings and minor fixes only. No new features.
 
 A phase boundary violation is treated as a process error. The agent MUST stop and report the violation rather than proceeding with out-of-phase changes.
@@ -205,14 +202,7 @@ Exempt from council review:
 
 ## Spec-First Development
 
-All changes that modify production code, test code, agent prompts, embedded assets, or CI configuration **must** be preceded by a spec workflow. The constitution (`.specify/memory/constitution.md`) is the highest-authority document in this project — all work must align with it.
-
-Two spec workflows are available:
-
-| Workflow     | Location                 | Best For                                      |
-| ------------ | ------------------------ | --------------------------------------------- |
-| **Speckit**  | `specs/NNN-name/`        | Numbered feature specs with the full pipeline |
-| **OpenSpec** | `openspec/changes/name/` | Targeted changes with lightweight artifacts   |
+All changes that modify production code, test code, agent prompts, embedded assets, or CI configuration **must** be preceded by an OpenSpec change. The constitution (`openspec/constitution.md`) is the highest-authority document in this project — all work must align with it. OpenSpec is the sole spec workflow; each change's planning artifacts live in `openspec/changes/<change-name>/`.
 
 **What requires a spec** (no exceptions without explicit user override):
 
@@ -256,75 +246,22 @@ gh issue create --repo unbound-force/website \
 - New convention pack added
 - Breaking changes to any user-facing workflow
 
-## Speckit Workflow (Mandatory)
+## OpenSpec Workflow
 
-All non-trivial feature work **must** go through the Speckit pipeline. The constitution (`.specify/memory/constitution.md`) is the highest-authority document in this project — all work must align with it.
+Use the schema and artifact rules in `openspec/config.yaml`. Before implementation, prepare a proposal, design, capability delta specs, and dependency-ordered tasks in `openspec/changes/<change-name>/`. Resolve ambiguity and check artifact consistency during planning; generating these artifacts does not authorize implementation.
 
-### Pipeline
+### Change Organization
 
-The workflow is a strict, sequential pipeline. Each stage has a corresponding `/speckit.*` command:
+- `proposal.md`: intent, scope, and constitution alignment.
+- `design.md`: technical approach and decisions.
+- `specs/<capability>/spec.md`: requirements and acceptance scenarios.
+- `tasks.md`: actionable implementation and verification checkboxes.
 
-```
-constitution → specify → clarify → plan → tasks → analyze → checklist → implement
-```
-
-| Command                  | Purpose                                             |
-| ------------------------ | --------------------------------------------------- |
-| `/speckit.constitution`  | Create or update the project constitution           |
-| `/speckit.specify`       | Create a feature specification from a description   |
-| `/speckit.clarify`       | Reduce ambiguity in the spec before planning        |
-| `/speckit.plan`          | Generate the technical implementation plan          |
-| `/speckit.tasks`         | Generate actionable, dependency-ordered task list   |
-| `/speckit.analyze`       | Non-destructive cross-artifact consistency analysis |
-| `/speckit.checklist`     | Generate requirement quality validation checklists  |
-| `/speckit.implement`     | Execute the implementation plan task by task        |
-| `/speckit.taskstoissues` | Convert tasks.md into GitHub Issues                 |
-
-### Ordering Constraints
-
-1. Constitution must exist before specs.
-2. Spec must exist before plan.
-3. Plan must exist before tasks.
-4. Tasks must exist before implementation and analysis.
-5. Clarify should run before plan (skipping increases rework risk).
-6. Analyze should run after tasks but before implementation.
-7. All checklists must pass before implementation (or user must explicitly override).
-
-### Spec Organization
-
-Specs are numbered with 3-digit zero-padded prefixes and stored under `specs/`:
-
-```
-specs/
-  001-feature-name/              # spec.md, plan.md, tasks.md
-  002-another-feature/           # spec.md
-
-.specify/
-  memory/
-    constitution.md              # Governance document (highest authority)
-  templates/                     # Templates for all artifact types
-  scripts/bash/                  # Automation scripts
-```
-
-Branch names follow the same numbering pattern (e.g., `001-feature-name`).
+Current capability specifications live in `openspec/specs/`. Change artifacts remain under `openspec/changes/`, including archived changes.
 
 ### Branch Conventions
 
-Both tiers enforce branch-based workflows:
-
-- **Speckit** branches: `NNN-<short-name>`
-  (e.g., `013-binary-rename`). Created automatically by
-  `/speckit.specify`. Validated by `check-prerequisites.sh`
-  at every pipeline step (hard gate).
-- **OpenSpec** branches: `opsx/<change-name>`
-  (e.g., `opsx/doctor-ux-improvement`). Created by
-  `/opsx-propose`. Validated by `/opsx-apply` before
-  implementation (hard gate).
-
-The `opsx/` prefix namespace ensures OpenSpec branches
-are visually distinct from Speckit branches in
-`git branch` output and do not collide with the
-`NNN-*` numbering pattern.
+Use `opsx/<change-name>` branches (for example, `opsx/doctor-ux-improvement`). Confirm the branch matches the active OpenSpec change before starting apply; this is a hard implementation gate.
 
 ### Task Completion Bookkeeping
 
@@ -332,11 +269,11 @@ When a task from `tasks.md` is completed during implementation, its checkbox **m
 
 ### Spec Commit Gate
 
-All spec artifacts (`spec.md`, `plan.md`, `tasks.md`, and any other files under `specs/`) **must** be committed and pushed before implementation begins. This ensures the planning record is preserved in version control before code changes start, and provides a clean baseline to diff against if implementation drifts from the plan. Run `/speckit.implement` only after the spec commit is on the remote.
+All planning artifacts for the change (`proposal.md`, `design.md`, capability delta specs, `tasks.md`, and supporting artifacts) **must** be committed and pushed before apply begins. This preserves the planning record before implementation changes start and provides a clean baseline for detecting drift. Begin implementation only after the artifact commit is on the remote.
 
 ### Constitution Check
 
-A mandatory gate at the planning phase. The constitution's core principles must each receive a PASS before proceeding. Constitution violations are automatically CRITICAL severity and non-negotiable.
+A mandatory gate at each planning phase (proposal, design, specs, and tasks). Each core principle in `openspec/constitution.md` must receive a PASS before proceeding. Constitution violations are automatically CRITICAL severity and non-negotiable.
 
 ## Content Sources
 
@@ -344,7 +281,7 @@ Project content is sourced from upstream repositories. Cross-reference before up
 
 | Project                  | Repository                    | Key Files                                        |
 | ------------------------ | ----------------------------- | ------------------------------------------------ |
-| Gaze                     | `unbound-force/gaze`          | `README.md`, `AGENTS.md`, `.specify/` specs      |
+| Gaze                     | `unbound-force/gaze`          | `README.md`, `AGENTS.md`, OpenSpec artifacts     |
 | Dewey                    | `unbound-force/dewey`         | `README.md`, `dewey-design-paper.md` (org-level) |
 | Unbound Force (personas) | `unbound-force/unbound-force` | `unbound-force.md`                               |
 

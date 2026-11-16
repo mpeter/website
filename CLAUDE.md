@@ -3,6 +3,11 @@
 @AGENTS.md
 @.opencode/agents/cobalt-crush-dev.md
 
+## OpenSpec
+
+Follow the OpenSpec-only workflow in AGENTS.md. Governance lives in
+`openspec/constitution.md`; change artifacts live in `openspec/changes/`.
+
 ## Convention Packs
 
 @.opencode/uf/packs/default.md

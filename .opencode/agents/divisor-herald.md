@@ -42,7 +42,7 @@ Before writing, read:
 2. `unbound-force.md` — Hero descriptions and team vision (for brand voice)
 3. `.opencode/uf/packs/content.md` — Content convention pack (focus on BA-NNN rules for Blog & Announcements and shared VB/FA/FT rules)
 4. `.opencode/uf/packs/content-custom.md` — Project-specific content rules (if present)
-5. The spec artifacts for the feature being announced — read spec.md, plan.md, and tasks.md to understand what was built and why
+5. The selected change's `openspec/changes/<change>/proposal.md`, `design.md`, `tasks.md`, and `specs/<capability>/spec.md`, with canonical `openspec/specs/<capability>/spec.md` context, to understand what was built and why
 
 ---
 
