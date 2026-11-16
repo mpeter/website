@@ -10,5 +10,13 @@
 ## 2. Verification
 
 - [x] 2.1 Verify constitution alignment and review the combined diff.
-- [ ] 2.2 Run site build, formatting, link and OpenSpec checks at final committed HEAD.
-- [ ] 2.3 Confirm zero retired terminology in tracked content and filenames.
+- [x] 2.2 Run site build, formatting, link and OpenSpec checks; report failures and repeat at final committed HEAD.
+- [x] 2.3 Confirm zero retired terminology in tracked content and filenames.
+
+### Verification limits
+
+Build and OpenSpec checks pass. Formatting still flags 138 existing files
+(the source snapshot flags 147); no newly introduced formatting failures remain.
+The generated-site link check finds one pre-existing invalid anchor in the
+constitution guide: `developer/#convention-packs/`. These findings are reported,
+not accepted as passing gates or silently repaired outside the migration.
