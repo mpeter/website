@@ -22,10 +22,10 @@ Unbound Force is built on four complementary tools that form a layered stack:
 | ---------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | **CLI**          | [`uf`](/docs/reference/cli/)                               | Project scaffolding, environment setup, health checks, configuration, sandboxed execution, LLM gateway.                   |
 | **Agent**        | [OpenCode](https://opencode.ai)                           | The AI coding environment where you interact, write code, and run commands. The personas run inside OpenCode.              |
-| **Planning**     | [Speckit](https://github.com/github/spec-kit) (spec-kit)  | A specification pipeline that turns ideas into structured specs, plans, and tasks before implementation begins.            |
+| **Planning**     | [OpenSpec](https://github.com/Fission-AI/OpenSpec) | Change proposals, specifications, design, and tasks with explicit apply, verify, and archive stages. |
 | **Coordination** | [Replicator](https://github.com/unbound-force/replicator) | Multi-agent coordination: parallel workers, git-backed tracking, file reservations, and semantic memory. Single Go binary. |
 
-Each tool is independently useful, but they compose into the full Unbound Force workflow: scaffold with `uf`, plan with Speckit, execute with OpenCode, coordinate with Replicator.
+Each tool is independently useful, but they compose into the full Unbound Force workflow: scaffold with `uf`, plan with OpenSpec, execute with OpenCode, coordinate with Replicator.
 
 ## The Heroes
 
@@ -43,7 +43,7 @@ Together, they cover the full software development lifecycle -- from requirement
 
 Ready to dive in? Start with the [Quick Start](/docs/getting-started/quick-start/) guide to install the tools, then pick the guide for your role:
 
-- **[Developer / Engineer](/docs/getting-started/developer/)** -- Daily workflow, Speckit pipeline, Replicator coordination, convention packs
+- **[Developer / Engineer](/docs/getting-started/developer/)** -- Daily workflow, OpenSpec lifecycle, Replicator coordination, convention packs
 - **[Tester](/docs/getting-started/tester/)** -- Gaze quality analysis, CRAP scores, coverage ratchets, CI integration
 - **[Product Owner](/docs/getting-started/product-owner/)** -- Muti-Mind backlog management, priority scoring, acceptance decisions
 - **[Product Manager](/docs/getting-started/product-manager/)** -- Mx F metrics, dashboards, coaching, retrospectives

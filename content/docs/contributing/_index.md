@@ -25,7 +25,7 @@ Include steps to reproduce, expected behavior, and actual behavior. For feature 
 We follow the standard GitHub pull request workflow:
 
 1. Fork the repository
-2. Create a feature branch named with a number prefix (e.g., `003-feature-name`)
+2. Create an OpenSpec change on an `opsx/<change-name>` branch (e.g., `opsx/add-project-page`)
 3. Make your changes
 4. Submit a pull request against the `main` branch
 5. Address any review feedback from The Divisor council
@@ -52,26 +52,23 @@ Valid types:
 | `refactor:` | Code restructuring | `refactor: simplify homepage template logic`  |
 | `ci:`       | CI/CD changes      | `ci: add build verification step`             |
 
-## The Speckit Workflow
+## The OpenSpec Workflow
 
-All non-trivial feature work goes through the [Speckit](https://github.com/github/spec-kit) pipeline. This ensures structured planning before implementation:
+Non-trivial feature work uses OpenSpec to establish intent and scope before implementation:
 
 ```text
-constitution -> specify -> clarify -> plan -> tasks -> analyze -> checklist -> implement
+/opsx-propose add-project-page
+/opsx-apply
+/opsx-verify
+/opsx-archive
 ```
 
-Each stage builds on the previous one:
+- **Propose** — create the proposal, specifications, design, and tasks under `openspec/changes/<change-name>/`; resolve ambiguity and review constitution alignment
+- **Apply** — implement the tasks and keep their completion checkboxes current
+- **Verify** — check the implementation against requirements, tasks, and design; resolve gaps and run the project's quality checks
+- **Archive** — preserve the completed change after merge
 
-- **Constitution** — project-level governance and principles
-- **Specify** — turn a feature description into a structured specification
-- **Clarify** — reduce ambiguity before planning
-- **Plan** — generate the technical implementation plan
-- **Tasks** — create actionable, dependency-ordered task list
-- **Analyze** — cross-artifact consistency check
-- **Checklist** — requirement quality validation
-- **Implement** — execute the plan task by task
-
-The constitution (`.specify/memory/constitution.md`) is the highest-authority document in any Unbound Force project. All work must align with it.
+The [constitution](/docs/getting-started/constitution/) remains the highest-authority governance document. All work must align with it.
 
 ## Links
 
@@ -80,4 +77,4 @@ The constitution (`.specify/memory/constitution.md`) is the highest-authority do
 - [Gaze Repository](https://github.com/unbound-force/gaze)
 - [Dewey Repository](https://github.com/unbound-force/dewey)
 - [Replicator Repository](https://github.com/unbound-force/replicator)
-- [Speckit (spec-kit)](https://github.com/github/spec-kit)
+- [OpenSpec](https://github.com/Fission-AI/OpenSpec)

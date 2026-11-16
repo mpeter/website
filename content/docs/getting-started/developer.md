@@ -2,7 +2,7 @@
 title: "Getting Started: Developer"
 slug: "developer"
 description: "Set up your environment, learn the daily workflow, and start building with the Unbound Force AI agent swarm as a developer."
-lead: "Install the tools, learn the workflows, and start shipping code with Cobalt-Crush, Speckit, and Replicator."
+lead: "Install the tools, learn the workflows, and start shipping code with Cobalt-Crush, OpenSpec, and Replicator."
 date: 2026-03-22T00:00:00+00:00
 draft: false
 weight: 30
@@ -44,7 +44,7 @@ Start every task in plan mode to think, then switch to build mode to execute.
 
 ## Daily Workflow
 
-Two main workflows for large and small tasks:
+Use the same OpenSpec lifecycle for features and bug fixes. Adjust the depth of the proposal and design to the size of the change.
 
 ### Large Tasks (Strategic)
 
@@ -52,21 +52,23 @@ For features that need architectural planning:
 
 1. **Explore** (plan mode): Think through the idea, investigate the codebase, clarify requirements
 
-2. **Specify** (build mode): Create a structured specification
+2. **Propose** (build mode): Create the proposal, specifications, design, and tasks
 
    ```text
-   /speckit.specify
+   /opsx-propose add-dashboard-export
    ```
 
-3. **Unleash** (build mode): The swarm takes it from here -- clarification, planning, implementation, testing, and review
+3. **Unleash** (build mode): Review the prepared artifacts and resolve remaining ambiguities first. The swarm then runs five stages -- spec review, implementation with test checkpoints, code review, retrospective, and demo instructions.
 
    ```text
    /unleash
    ```
 
-   If `/unleash` pauses (unanswerable question, spec finding, build failure), fix the issue and re-run. If the spec needs refinement, run `/speckit.clarify` then `/unleash` again.
+   If `/unleash` pauses (spec finding, worker failure, build failure), resolve the reported issue in the change artifacts or code as appropriate and re-run. For manual implementation, resolve remaining ambiguities before using `/opsx-apply`.
 
-4. **Finale** (build mode): Wrap up -- commit, push, and create a PR for review
+4. **Verify** (build mode): Run `/opsx-verify` and resolve gaps between the implementation and change artifacts.
+
+5. **Finale** (build mode): Wrap up -- commit, push, and create a PR for review. After merge, run `/opsx-archive` to preserve the completed change.
 
    ```text
    /finale
@@ -74,7 +76,7 @@ For features that need architectural planning:
 
 ### Small Tasks (Tactical)
 
-For bug fixes and changes that don't need the full Speckit pipeline:
+For bug fixes and smaller changes, keep the proposal focused:
 
 1. **Explore** (plan mode): Think through the fix, understand the problem
 
@@ -84,58 +86,44 @@ For bug fixes and changes that don't need the full Speckit pipeline:
    /opsx-propose fix-auth-timeout
    ```
 
-3. **Implement** (build mode): Invoke Cobalt-Crush to implement with convention pack adherence
+3. **Apply** (build mode): Implement the change tasks
 
    ```text
-   /cobalt-crush
+   /opsx-apply
    ```
 
-   `/cobalt-crush` delegates to the `cobalt-crush-dev` agent, which loads [convention packs](/docs/getting-started/developer/#convention-packs) and applies the project's coding standards. This gives you the quality enforcement that a bare `/opsx-apply` would skip.
+   Follow the project's [convention packs](/docs/getting-started/developer/#convention-packs). You can also invoke `/cobalt-crush` for the developer persona.
 
-4. **Finale** (build mode): Ship it
+4. **Verify**: Run `/opsx-verify` and address any gaps.
+
+5. **Finale** (build mode): Ship it, then run `/opsx-archive` after merge.
 
    ```text
    /finale
    ```
 
-## Working with Speckit
+## Working with OpenSpec
 
-Speckit is the strategic specification pipeline for features that need architectural planning. For autonomous execution of the entire pipeline, run [`/unleash`](/docs/getting-started/common-workflows/#autonomous-pipeline-unleash) -- it handles clarification, planning, implementation, testing, and review in a single command, pausing only when human judgment is needed.
-
-For step-by-step control, use the individual commands:
+OpenSpec separates the definition of a change from its implementation and verification. Use it for both architectural features and focused fixes:
 
 ```text
-/speckit.specify    Create the feature specification
-/speckit.clarify    Reduce ambiguity (interactive Q&A)
-/speckit.plan       Generate the technical implementation plan
-/speckit.tasks      Generate the task breakdown
-/speckit.analyze    Cross-artifact consistency analysis
-/speckit.checklist  Generate quality validation checklists
-/speckit.implement  Execute the implementation plan
+/opsx-propose add-dashboard-export
+/opsx-apply
+/opsx-verify
+/opsx-archive
 ```
 
-Each stage produces artifacts that feed the next. Specs must be committed and pushed before implementation begins (the Spec Commit Gate).
+The proposal records intent and scope; specifications define requirements and scenarios; the design records technical decisions; `tasks.md` tracks implementation. Review and commit the planning artifacts before implementation. Verification checks the result against those artifacts; archive the completed change after merge.
 
-### When to Use Speckit vs. OpenSpec
-
-| Use Speckit when...                 | Use OpenSpec when...   |
-| ----------------------------------- | ---------------------- |
-| 3+ user stories                     | 1-2 tasks              |
-| Cross-cutting architectural changes | Bug fixes              |
-| New hero or capability              | Small improvements     |
-| Needs formal review                 | Quick tactical changes |
-
-**OpenSpec** is the tactical workflow for smaller changes. It uses `/opsx-propose` to create a change with proposal, design, and tasks artifacts, then `/opsx-apply` to implement. See [Common Workflows](/docs/getting-started/common-workflows/) for the full flow.
-
-Both workflows enforce branch conventions: Speckit uses `NNN-<short-name>` branches (created by `/speckit.specify`), and OpenSpec uses `opsx/<change-name>` branches (created by `/opsx-propose`). Branch validation is a hard gate at each pipeline step.
+Unbound Force uses `opsx/<change-name>` branches and stores active artifacts under `openspec/changes/<change-name>/`. Keep larger changes bounded with explicit dependencies and review checkpoints rather than switching to a different planning tool. See [Common Workflows](/docs/getting-started/common-workflows/) for the full flow.
 
 ## Working with Replicator
 
 [Replicator](/docs/projects/replicator/) coordinates parallel AI agents on your codebase. It provides 53 MCP tools for work tracking, file reservations, parallel orchestration with git worktrees, and semantic memory -- all in a single Go binary.
 
-### Replicator + Speckit Integration
+### Replicator + OpenSpec Integration
 
-When a `tasks.md` file exists from the Speckit pipeline, Replicator uses it as the authoritative task decomposition instead of generating its own. It maps each phase to an epic and respects the `[P]` parallel markers and phase dependencies. The `/unleash` command orchestrates this automatically.
+Use `openspec/changes/<change-name>/tasks.md` as the authoritative task decomposition when coordinating with Replicator. Keep task checkboxes current and make dependencies explicit before dispatching independent work. The `/unleash` command coordinates autonomous execution of the active change.
 
 ### Parallel Workers
 
@@ -157,7 +145,7 @@ When [Dewey](/docs/getting-started/knowledge/) is configured, Cobalt-Crush uses 
 Example queries Cobalt-Crush makes during implementation:
 
 - `dewey_semantic_search("how to validate JSON schema in Go")` — finds toolstack documentation and implementation patterns from other repositories
-- `dewey_similar("specs/005-getting-started-guides/plan.md")` — finds related planning artifacts to inform the current implementation approach
+- `dewey_similar("openspec/changes/add-dashboard-export/design.md")` — finds related design artifacts to inform the current implementation approach
 - `dewey_semantic_search_filtered("error handling patterns", source: "github")` — finds error handling discussions in GitHub issues and PRs across the organization
 
 When Dewey is not available, Cobalt-Crush falls back to direct file reads and CLI queries. The implementation workflow is the same — with narrower context. See the [graceful degradation tiers](/docs/getting-started/knowledge/#graceful-degradation) for details.
@@ -178,13 +166,13 @@ Every session follows this ritual:
 
 | Step      | Command                               | Purpose                                 |
 | --------- | ------------------------------------- | --------------------------------------- |
-| **Start** | `/speckit.specify` or `/opsx-propose` | Define the work                         |
+| **Start** | `/opsx-propose` | Define the work                         |
 | **Work**  | `/unleash` or `/cobalt-crush`         | Execute the work                        |
 | **End**   | `/finale`                             | Commit, push, create PR for review      |
 
 ## Cobalt-Crush Persona
 
-[Cobalt-Crush](/docs/team/cobalt-crush/) is the developer persona -- the Engineering Core of the swarm. When you invoke `/speckit.implement` or `/cobalt-crush`, you're working with an agent that follows six core principles:
+[Cobalt-Crush](/docs/team/cobalt-crush/) is the developer persona -- the Engineering Core of the swarm. When you invoke `/cobalt-crush`, you're working with an agent that follows six core principles:
 
 - **Clean Code**: Single-purpose functions, intent-revealing names, no dead code
 - **SOLID**: Applied at function, type, and package levels
@@ -292,7 +280,7 @@ uf init [--divisor] [--lang go|typescript] [--force]
 
 ### What Gets Deployed
 
-`uf init` deploys approximately 35 user-owned files plus tool-owned files (Speckit commands, OpenSpec schemas, etc.) across these categories:
+`uf init` deploys user-owned and tool-owned files (commands, OpenSpec schemas, and convention packs) across these categories:
 
 | Category         | Files   | Examples                                                                                                     |
 | ---------------- | ------- | ------------------------------------------------------------------------------------------------------------ |
@@ -300,7 +288,6 @@ uf init [--divisor] [--lang go|typescript] [--force]
 | Commands         | ~8      | review-council, review-pr, constitution-check, cobalt-crush, unleash, uf-init, agent-brief, finale           |
 | Convention Packs | 9       | default, go, typescript, content (each with tool-owned and user-owned variants) + severity                   |
 | OpenSpec         | ~5      | config, schema, templates (design, proposal, spec, tasks)                                                    |
-| Skills           | 1       | speckit-workflow                                                                                             |
 | `.gitignore`     | Managed | UF runtime and legacy tool ignore patterns                                                                   |
 
 `uf init` also manages `.gitignore` entries. It appends a standard Unbound Force ignore block (marked with `# Unbound Force — managed by uf init`) that covers `.uf/` runtime data (databases, caches, locks, logs) and legacy tool directories (`.dewey/`, `.hive/`, `.unbound-force/`, `.muti-mind/`, `.mx-f/`). The behavior is append-only — existing `.gitignore` content is never modified or removed. If `.gitignore` does not exist, it is created. The operation is idempotent: running `uf init` multiple times does not duplicate the ignore block.
@@ -312,7 +299,7 @@ File counts are approximate and may change between versions.
 Files deployed by `uf init` fall into two ownership categories:
 
 - **Tool-owned** (commands, skills, canonical convention packs, OpenSpec schemas): Automatically updated when the embedded version changes. On re-run, if the file content differs from the embedded version, it is silently updated. Tool-owned files carry a version marker: `<!-- scaffolded by uf v{version} -->`.
-- **User-owned** (agent files, custom convention packs `*-custom.md`, specify configs): Never overwritten on re-run. If the file already exists, it is skipped. This preserves your customizations across `uf init` updates. Use `--force` to overwrite if needed.
+- **User-owned** (agent files, custom convention packs `*-custom.md`, project config): Never overwritten on re-run. If the file already exists, it is skipped. This preserves your customizations across `uf init` updates. Use `--force` to overwrite if needed.
 
 ### Sub-Tool Initialization
 
@@ -332,7 +319,7 @@ After completion, `uf init` shows a summary with file dispositions (`+` created,
 
 ## Session Ritual
 
-The most important habit: **always end your session properly**. The daily workflow follows a specify → unleash → finale loop. When you are done working, run `/finale` to commit, push, and create a PR for review:
+The most important habit: **always end your session properly**. Define the change with `/opsx-propose`, implement with `/opsx-apply` or `/unleash`, then check it with `/opsx-verify`. When you are done working, run `/finale` to commit, push, and create a PR for review. Archive the change with `/opsx-archive` after merge:
 
 ```text
 /finale        # commit → push → PR → main

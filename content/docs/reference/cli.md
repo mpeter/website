@@ -27,9 +27,9 @@ The `uf` CLI (alias for `unbound-force`) manages the full Unbound Force toolchai
 
 ## init
 
-Scaffold the Unbound Force specification framework into the current directory. Creates Speckit templates, scripts, OpenCode commands and agents, Divisor review personas, convention packs, and OpenSpec schema files.
+Scaffold the Unbound Force specification framework into the current directory. Creates OpenCode commands and agents, Divisor review personas, convention packs, and OpenSpec schema and template files.
 
-User-owned files (templates, scripts, agents, config) are skipped if they already exist. Tool-owned files (Speckit commands, OpenSpec schema, convention packs) are updated if their content has changed.
+User-owned files (agents, custom convention packs, project config) are skipped if they already exist. Tool-owned files (workflow commands, OpenSpec schema, canonical convention packs) are updated if their content has changed.
 
 ```bash
 uf init [flags]

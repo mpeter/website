@@ -155,7 +155,7 @@ Dewey indexes content from four pluggable source types. Configure them in `.uf/d
 
 The foundational source — indexes Markdown files in your repository. This is enabled by default after `dewey init`.
 
-Dewey automatically respects `.gitignore` at the source root — no configuration needed. Directories like `node_modules/`, `vendor/`, and other `.gitignore`-excluded paths are skipped during indexing. Hidden directories used by tools (`.git/`, `.obsidian/`, `.uf/dewey/`) are always skipped regardless of `.gitignore`. Dewey-specific directories (`.opencode/`, `.specify/`, `.uf/muti-mind/`) are indexed normally unless excluded by `.gitignore`.
+Dewey automatically respects `.gitignore` at the source root — no configuration needed. Directories like `node_modules/`, `vendor/`, and other `.gitignore`-excluded paths are skipped during indexing. Hidden directories used by tools (`.git/`, `.obsidian/`, `.uf/dewey/`) are always skipped regardless of `.gitignore`. Project knowledge directories such as `.opencode/`, `.uf/muti-mind/`, and `openspec/` are indexed normally unless excluded by `.gitignore`.
 
 You can add additional ignore patterns and control recursion depth via `sources.yaml`:
 

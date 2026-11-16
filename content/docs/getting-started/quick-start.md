@@ -46,8 +46,9 @@ OpenCode has two modes -- switch between them with **Tab**:
 Start in plan mode to explore your idea, then switch to build mode:
 
 ```text
-/speckit.specify    # describe what you want to build
+/opsx-propose add-dashboard-export # define the change and its tasks
 /unleash            # the swarm takes it from here
+/opsx-verify        # check the implementation against the change
 /finale             # commit, push, create PR
 ```
 
@@ -59,9 +60,12 @@ For bug fixes and tactical changes:
 
 ```text
 /opsx-propose fix-the-bug    # create proposal + design + tasks
-/cobalt-crush                # implement with convention pack adherence
+/opsx-apply                  # implement the change tasks
+/opsx-verify                 # check requirements, tasks, and design
 /finale                      # commit, push, create PR
 ```
+
+After either workflow is merged, run `/opsx-archive` to preserve the completed change.
 
 ## The Stack
 
@@ -71,15 +75,15 @@ Unbound Force runs on four tools that form a layered stack. `uf setup` installs 
 | ---------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | **CLI**          | [`uf`](/docs/reference/cli/)                               | Project scaffolding, environment setup, health checks, configuration, sandboxed execution, LLM gateway.                   |
 | **Agent**        | [OpenCode](https://opencode.ai)                           | The AI coding environment where you interact, write code, and run commands. The personas run inside OpenCode.              |
-| **Planning**     | [Speckit](https://github.com/github/spec-kit) (spec-kit)  | A specification pipeline that turns ideas into structured specs, plans, and tasks before implementation begins.            |
+| **Planning**     | [OpenSpec](https://github.com/Fission-AI/OpenSpec) | Change proposals, specifications, design, and tasks with explicit apply, verify, and archive stages. |
 | **Coordination** | [Replicator](https://github.com/unbound-force/replicator) | Multi-agent coordination: parallel workers, git-backed tracking, file reservations, and semantic memory. Single Go binary. |
 
-Each tool is independently useful, but they compose into the full Unbound Force workflow: scaffold with `uf`, plan with Speckit, execute with OpenCode, coordinate with Replicator.
+Each tool is independently useful, but they compose into the full Unbound Force workflow: scaffold with `uf`, plan with OpenSpec, execute with OpenCode, coordinate with Replicator.
 
 ## Next Steps
 
-- **[Constitution](/docs/getting-started/constitution/)** -- The core principles that govern all heroes. The constitution must exist before running `/speckit.specify`
-- **[Developer Guide](/docs/getting-started/developer/)** -- Daily workflow, Speckit pipeline, Replicator coordination, convention packs
+- **[Constitution](/docs/getting-started/constitution/)** -- The core principles that govern all heroes and guide OpenSpec proposals
+- **[Developer Guide](/docs/getting-started/developer/)** -- Daily workflow, OpenSpec lifecycle, Replicator coordination, convention packs
 - **[Tester Guide](/docs/getting-started/tester/)** -- Gaze quality analysis, CRAP scores, coverage ratchets, CI integration
 - **[Product Owner Guide](/docs/getting-started/product-owner/)** -- Muti-Mind backlog management, priority scoring, acceptance decisions
 - **[Product Manager Guide](/docs/getting-started/product-manager/)** -- Mx F metrics, dashboards, coaching, retrospectives

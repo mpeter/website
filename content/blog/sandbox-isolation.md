@@ -54,7 +54,7 @@ The sandbox runs through a startup sequence:
   Attaching to OpenCode TUI...
 ```
 
-You are now inside the sandbox. The TUI looks identical to a normal OpenCode session — the agent has full access to your project files (read-only) and all the Unbound Force tools (Speckit, Replicator, Divisor agents).
+You are now inside the sandbox. The TUI looks identical to a normal OpenCode session — the agent has full access to your project files (read-only) and all the Unbound Force tools (OpenSpec, Replicator, Divisor agents).
 
 ### 2. Work Inside the Sandbox
 

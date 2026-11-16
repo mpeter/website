@@ -175,17 +175,21 @@ If you agree, it creates `fix/pr-42-yamllint` from the base branch with a minima
 The two review commands fit into the standard development workflow:
 
 ```text
-/speckit.specify          # define the work
+/opsx-propose             # define the change and its tasks
        ↓
 /unleash                  # implement autonomously
        ↓
 /review-council           # validate locally (pre-PR)
+       ↓
+/opsx-verify              # check implementation against change artifacts
        ↓
 /finale                   # commit, push, create PR
        ↓
 /review-pr                # review with CI data (post-PR)
        ↓
 Merge                     # after reviewer approval
+       ↓
+/opsx-archive             # preserve the completed change
 ```
 
 You can use either command independently — they do not depend on each other. But together they catch issues at two different points: before the code leaves your machine and after it runs through CI.
