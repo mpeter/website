@@ -14,6 +14,11 @@ contributors: ["Unbound Force"]
 
 ## The Pattern Nobody Expected
 
+> Historical design note: this article describes the earlier eight-phase workflow.
+> Current development uses OpenSpec: `/opsx-propose`, `/opsx-apply`,
+> `/opsx-verify`, and `/opsx-archive`. See the
+> [developer guide](/docs/getting-started/developer/#working-with-openspec) for current instructions.
+
 Three independent teams — OpenAI, Anthropic, and ThoughtWorks — each spent months building AI agent harnesses. They started from different assumptions, used different architectures, and optimized for different goals. They arrived at the same five conclusions.
 
 Yanli Liu documented this convergence in ["Harness Engineering: What Every AI Engineer Needs to Know in 2026" (*AI Advances*, Apr 2026)](https://ai.gopubby.com/harness-engineering-what-every-ai-engineer-needs-to-know-in-2026-0ab649e5686a), cataloging the principles that every team discovers when they move from toy demos to production-grade agent systems. The article has 1.7K claps for a reason: if you have built an agent harness, you recognize every finding immediately.
@@ -86,7 +91,7 @@ At the specification level, the 8-phase pipeline enforces incrementalism on the 
 - 20+ agent persona files in `.opencode/agents/`
 - 15+ command files in `.opencode/command/`
 - Convention packs in `.opencode/uf/packs/`
-- The [constitution](/docs/getting-started/constitution/) in `.specify/memory/`
+- The project's [constitution](/docs/getting-started/constitution/), referenced by its OpenSpec configuration
 - Skills, specs, and workflow configuration
 
 The scaffold engine uses Go's `embed.FS` to bundle all these files and deploy them via `uf init`. Drift detection tests ensure embedded assets match their canonical sources. If the scaffolded files diverge from the originals, tests fail.

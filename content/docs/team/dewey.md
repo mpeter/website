@@ -91,7 +91,7 @@ Dewey indexes content from four pluggable source types. Each source implements a
 
 ### Local Disk
 
-The foundational source, inherited from graphthulhu. Indexes all Markdown files in the repository, including hidden directories (`.opencode/`, `.specify/`, `.uf/muti-mind/`). Files are watched for changes in real time via fsnotify — when you save a file, Dewey re-indexes only the changed content using SHA-256 content hashing for change detection.
+The foundational source, inherited from graphthulhu. Indexes repository Markdown, including `openspec/` artifacts and hidden directories such as `.opencode/` and `.uf/muti-mind/`. Files are watched for changes in real time via fsnotify — when you save a file, Dewey re-indexes only the changed content using SHA-256 content hashing for change detection.
 
 ### GitHub API
 

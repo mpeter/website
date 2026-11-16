@@ -10,7 +10,7 @@ toc: true
 
 ## Why Architecture Matters
 
-Each page in this documentation describes a piece of Unbound Force: [Dewey](/docs/getting-started/knowledge/) provides semantic search, [convention packs](/docs/getting-started/developer/#convention-packs) encode coding standards, [the Divisor](/docs/team/the-divisor/) runs multi-agent code review, and the [Speckit pipeline](/docs/getting-started/common-workflows/#autonomous-pipeline-unleash) enforces plan-before-execute discipline. But none of those pages explains why the system is structured the way it is — why these specific components exist, how they interact, and what design principles hold them together.
+Each page in this documentation describes a piece of Unbound Force: [Dewey](/docs/getting-started/knowledge/) provides semantic search, [convention packs](/docs/getting-started/developer/#convention-packs) encode coding standards, [the Divisor](/docs/team/the-divisor/) runs multi-agent code review, and the [OpenSpec workflow](/docs/getting-started/developer/#working-with-openspec) separates change definition from implementation. But none of those pages explains why the system is structured the way it is — why these specific components exist, how they interact, and what design principles hold them together.
 
 This page presents the six architectural principles that shape how Unbound Force works. Understanding them helps you predict how the system will behave, diagnose problems when something goes wrong, and make informed decisions about which components to adopt.
 
@@ -40,7 +40,7 @@ Unbound Force layers governance at five levels, from most authoritative to most 
 
 3. **Agent personas** — Individual agent configurations that define each hero's role, capabilities, tool access, and behavioral constraints. Personas are bound by convention packs and the constitution but specialize them for a specific function (development, testing, review, documentation).
 
-4. **Commands** — Slash commands (`/unleash`, `/review-council`, `/speckit.implement`) that orchestrate multi-step workflows. Commands define the sequence of operations, exit points, and handoff protocols. They operate within the constraints set by personas, packs, and the constitution.
+4. **Commands** — Slash commands (`/unleash`, `/review-council`, `/opsx-apply`) that orchestrate multi-step workflows. Commands define the sequence of operations, exit points, and handoff protocols. They operate within the constraints set by personas, packs, and the constitution.
 
 5. **CI pipelines** — Automated checks (linters, test suites, vulnerability scanners) that enforce computational constraints. CI is the final enforcement layer — if code passes all higher layers but fails CI, it does not ship.
 
@@ -79,21 +79,15 @@ The Divisor Council extends this further with 5+ specialized review agents runni
 
 Letting an agent plan and execute in the same pass produces unreliable output. Every major AI engineering team has independently discovered this: the planning step must be separate from execution, with its output reviewed before implementation begins (Liu, "Harness Engineering," *AI Advances*, Apr 2026).
 
-Unbound Force implements this as an 8-phase pipeline with hard gates between phases:
+Unbound Force uses the OpenSpec lifecycle for both features and focused fixes:
 
+```text
+propose → apply → verify → archive
 ```
-constitution → specify → clarify → plan → tasks → analyze → checklist → implement
-```
 
-The phases enforce a strict progression:
-- You cannot plan before you specify
-- You cannot create tasks before you plan
-- You cannot implement before spec review passes
-- All spec artifacts must be committed before implementation begins (Spec Commit Gate)
+`/opsx-propose` creates the proposal, specifications, design, and tasks under `openspec/changes/<change-name>/`. Review those artifacts, resolve ambiguity, and check constitution alignment before `/opsx-apply` begins implementation. `/opsx-verify` compares the result with the artifacts; `/opsx-archive` preserves the completed change after merge.
 
-Phase boundaries are enforced rules, not suggestions. If an agent attempts to make code changes during the planning phase, it triggers a process violation and must stop. The [common workflows page](/docs/getting-started/common-workflows/) describes the full pipeline in detail, including the `/unleash` command that orchestrates all eight phases with six defined exit points where human judgment is required.
-
-This separation applies at two levels: the Speckit pipeline separates planning from execution at the feature level, and [OpenSpec](/docs/getting-started/common-workflows/#bug-fix-tactical) provides a lighter workflow for tactical changes that still separates proposal from implementation.
+Phase boundaries protect the planning record: proposing a change does not authorize implementing it in the same phase. The [common workflows page](/docs/getting-started/common-workflows/) describes manual execution and `/unleash` orchestration. Larger changes need deeper design and review, not a second planning system.
 
 ## Composability
 
@@ -102,7 +96,7 @@ Every component in Unbound Force is designed to be independently useful. You do 
 - **Gaze** analyzes Go code quality without requiring any other Unbound Force tool. Install it, run it, get CRAP scores and coverage analysis.
 - **Dewey** provides semantic search over any Markdown-based knowledge base. It works with any AI coding environment that supports MCP, not just OpenCode.
 - **Convention packs** are portable Markdown files. You can read them as documentation, use them as prompt context, or enforce them through CI — no tooling dependency.
-- **The Speckit pipeline** can be followed manually with any AI assistant. The `/speckit.*` commands automate it, but the underlying workflow is documented and executable without automation.
+- **OpenSpec artifacts** are versioned Markdown. Teams can inspect intent, requirements, design, and task progress independently of the assistant that produced them.
 
 Graceful degradation is a design principle, not an accident. When Dewey is unavailable, agents fall back to grep and direct file reads — less context, but still functional. When Gaze is not installed, the review council skips the quality analysis phase and proceeds with CI checks and agent reviews. When convention packs are not present, agents still follow AGENTS.md conventions.
 

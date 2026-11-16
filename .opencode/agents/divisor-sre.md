@@ -24,8 +24,8 @@ You are a deployment and operational readiness auditor for this project. Your jo
 Before reviewing, read:
 
 1. `AGENTS.md` -- Project overview, active technologies, build & test commands, git & workflow
-2. `.specify/memory/constitution.md` -- Project constitution (core principles)
-3. The relevant spec, plan, and tasks files under `specs/` for the current work
+2. `openspec/constitution.md` -- Project constitution (core principles)
+3. The selected change's `openspec/changes/<change>/proposal.md`, `design.md`, `tasks.md`, and `specs/<capability>/spec.md`, with canonical `openspec/specs/<capability>/spec.md` context
 4. Release pipeline configs if they exist (e.g., `.goreleaser.yaml`, `.github/workflows/`, `Makefile`, CI configs)
 5. Dependency manifests if they exist (e.g., `go.mod`, `package.json`, `requirements.txt`, `Cargo.toml`)
 6. All `*.md` files from `.opencode/uf/packs/` -- active convention pack. If no pack files are found, note this in your findings and proceed with universal checks only.
@@ -108,7 +108,7 @@ Use this mode when the caller instructs you to review spec artifacts instead of 
 
 ### Review Scope
 
-Read **all files** under `specs/` recursively (every feature directory and every artifact: `spec.md`, `plan.md`, `tasks.md`, `data-model.md`, `research.md`, `quickstart.md`, and `checklists/`). Also read `.specify/memory/constitution.md` and `AGENTS.md` for constraint context.
+Read the selected active change's `openspec/changes/<change>/proposal.md`, `design.md`, `tasks.md`, and `specs/<capability>/spec.md`. Read related canonical `openspec/specs/<capability>/spec.md` files for context, plus `openspec/constitution.md` and `AGENTS.md`. Keep review findings scoped to the selected change; do not scan unrelated changes or archived artifacts.
 
 Do NOT use `git diff` or review code files. Your scope is exclusively the specification artifacts.
 
@@ -168,7 +168,7 @@ For each finding, provide:
 ```
 ### [SEVERITY] Finding Title
 
-**File**: `path/to/file:line` (or `specs/NNN-feature/artifact.md` in spec review mode)
+**File**: `path/to/file:line` (or `openspec/changes/<change>/artifact.md` in spec review mode)
 **Constraint**: Which operational concern is violated
 **Description**: What the issue is and why it matters for deployment or maintenance
 **Recommendation**: How to fix it

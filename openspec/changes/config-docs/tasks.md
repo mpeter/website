@@ -29,9 +29,9 @@
 ## 6. Verification
 
 - [x] 6.1 Run `npm run build` and confirm no build errors
-- [ ] 6.2 Run `npm run dev` and verify config page renders correctly with all sections
+- [ ] 6.2 Run `npm run dev` and verify config page renders correctly with all sections (unverified: completion evidence not established during migration)
 - [x] 6.3 Verify page appears in Reference section navigation
-- [ ] 6.4 Verify both light and dark mode rendering
+- [ ] 6.4 Verify both light and dark mode rendering (unverified: completion evidence not established during migration)
 - [x] 6.5 Verify all internal links resolve (no dead links)
 <!-- spec-review: passed -->
 <!-- code-review: passed -->

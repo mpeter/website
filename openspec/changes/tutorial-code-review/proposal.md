@@ -35,7 +35,7 @@ A new tutorial page at `content/docs/getting-started/code-review-tutorial.md` co
 
 ## Constitution Alignment
 
-Assessed against the Unbound Force website project constitution (`.specify/memory/constitution.md`).
+Assessed against the Unbound Force website project constitution (`openspec/constitution.md`).
 
 ### I. Content Accuracy
 

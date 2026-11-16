@@ -36,7 +36,7 @@ This change addresses GitHub issues [#39](https://github.com/unbound-force/websi
 
 ## Constitution Alignment
 
-Assessed against the Unbound Force website project constitution (`.specify/memory/constitution.md`).
+Assessed against the Unbound Force website project constitution (`openspec/constitution.md`).
 
 ### I. Content Accuracy
 

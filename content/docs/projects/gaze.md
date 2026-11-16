@@ -98,18 +98,18 @@ Then scaffold the OpenCode integration in your Go project:
 gaze init
 ```
 
-This creates 8 files across 3 directories in `.opencode/` that wire up the `/gaze` command, a quality reporting agent, and AI-assisted test generation:
+This scaffolds the `/gaze` command, a quality reporting agent, and AI-assisted test generation in `.opencode/`. The core integration includes:
 
 | Directory               | Files                                                               |
 | ----------------------- | ------------------------------------------------------------------- |
 | `.opencode/agents/`     | `gaze-reporter.md`, `gaze-test-generator.md`, `reviewer-testing.md` |
-| `.opencode/command/`    | `gaze.md`, `gaze-fix.md`, `speckit.testreview.md`                   |
+| `.opencode/command/`    | `gaze.md`, `gaze-fix.md`                                            |
 | `.opencode/references/` | `doc-scoring-model.md`, `example-report.md`                         |
 
 Notable scaffolded files:
 
 - **`reviewer-testing.md`** — The Tester Divisor persona for code review. When the review council runs, this agent evaluates test architecture, coverage strategy, assertion depth, and test isolation. It uses Gaze quality data (when available) to ground its findings in concrete CRAP scores and coverage numbers.
-- **`speckit.testreview.md`** — A read-only spec testability analysis command (`/speckit.testreview`). Evaluates whether a spec's requirements are testable before implementation begins — checking that acceptance criteria are specific enough to write tests from.
+- **Specification testability** — Before implementation, review the OpenSpec requirements and scenarios to ensure they are specific enough to write tests from. After implementation, use `/opsx-verify` to check the result against the change artifacts.
 
 ### The `/gaze` Command
 

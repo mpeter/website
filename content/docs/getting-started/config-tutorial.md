@@ -116,7 +116,7 @@ setup:
     - mxf
 ```
 
-After setting this, `uf setup` will install OpenCode, Speckit, Replicator, and Dewey but skip Gaze and Mx F.
+After setting this, `uf setup` will install OpenCode, OpenSpec, Replicator, and Dewey but skip Gaze and Mx F.
 
 ### Scenario: Default IDE for Sandbox Workspaces
 

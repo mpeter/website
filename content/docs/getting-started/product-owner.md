@@ -80,9 +80,9 @@ This creates a backlog item and starts a workflow with `define=swarm` in one ope
 For projects without [Dewey](/docs/getting-started/knowledge/) configured, the define stage runs in manual mode. You drive specification creation directly:
 
 1. Create or select a backlog item with clear acceptance criteria
-2. Initiate specification: `/speckit.specify`
-3. Participate in clarification: `/speckit.clarify` -- answer questions about scope, user expectations, and edge cases
-4. Review the specification before it proceeds to planning
+2. Create an OpenSpec change: `/opsx-propose add-dashboard-export`
+3. Answer open questions about scope, user expectations, and edge cases in the change artifacts
+4. Review the proposal, specifications, design, and tasks before implementation
 
 Write acceptance criteria in Given/When/Then format for clarity:
 
@@ -127,11 +127,11 @@ When Dewey is not available, Muti-Mind works with the local backlog files and di
 
 ## Working with Specifications
 
-Speckit specifications are the bridge between your product vision and the developer's implementation plan. Understanding how to read and contribute to specs makes the workflow more effective.
+OpenSpec change artifacts bridge your product vision and the developer's implementation. The proposal describes intent and scope, specifications define requirements and scenarios, the design records technical decisions, and tasks track the work.
 
 ### Reading a Spec
 
-Every spec follows a standard structure:
+When reviewing a change, look for:
 
 - **User Stories**: Prioritized descriptions of user journeys with acceptance scenarios (Given/When/Then). Each story is independently implementable and testable.
 - **Functional Requirements**: Numbered `FR-NNN` items describing what the system MUST, SHOULD, or MAY do. These are the testable obligations.
@@ -149,13 +149,12 @@ The most valuable contribution you make to a spec is clear acceptance criteria. 
 
 ### The Spec Pipeline
 
-Specs flow through a sequential pipeline. You drive the early stages:
+The OpenSpec lifecycle separates intent, implementation, and validation:
 
-1. `/speckit.specify` -- You describe what you want built; the spec is generated
-2. `/speckit.clarify` -- You answer questions to reduce ambiguity
-3. `/speckit.plan` -- Developer creates the technical plan (you may review)
-4. `/speckit.tasks` -- Developer generates the task breakdown
-5. `/speckit.implement` -- Developer implements the tasks
+1. `/opsx-propose` -- Describe what you want built; review the proposal, specifications, design, and tasks
+2. `/opsx-apply` -- The developer implements the tasks, resolving open questions with you
+3. `/opsx-verify` -- Check the result against the change artifacts and your acceptance criteria
+4. `/opsx-archive` -- Preserve the completed change after acceptance and merge
 
 ## Next Steps
 

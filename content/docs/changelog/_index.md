@@ -8,14 +8,22 @@ weight: 10
 toc: true
 ---
 
+## Website — Unreleased
+
+### Changed
+
+- OpenSpec is the website repository's sole requirements workflow. Contributor
+  guides now describe proposal, implementation, verification, and archiving;
+  historical planning records retain their task states in dated archives.
+
 ## v0.12.0 — 2026-04-14
 
 ### Added
 
 - **Containerized development sessions** -- New `uf sandbox` command group for launching, managing, and extracting changes from containerized OpenCode sessions. Supports Podman (local) and Eclipse Che / Dev Spaces (CDE) backends.
 - **Linux cross-platform install** -- RPM packages and Homebrew Formula for Linux installations.
-- **Externalized Speckit commands** -- Speckit, OpenSpec, and Gaze init assets are now externalized from embedded assets, enabling independent updates.
-- **Workflow phase boundaries** -- Speckit commands now enforce phase boundaries (spec vs. implementation), preventing out-of-phase changes.
+- **Externalized workflow commands** -- The release externalized specification workflow and Gaze init assets from embedded assets, enabling independent updates.
+- **Workflow phase boundaries** -- The release added boundaries between specification and implementation commands to prevent out-of-phase changes.
 
 ### Fixed
 

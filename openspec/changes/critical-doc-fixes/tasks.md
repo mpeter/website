@@ -21,7 +21,7 @@
 ## 5. Verification
 
 - [x] 5.1 Run `npm run build` and confirm no build errors
-- [ ] 5.2 Run `npm run dev` and visually verify all corrected pages render correctly
+- [ ] 5.2 Run `npm run dev` and visually verify all corrected pages render correctly (unverified: completion evidence not established during migration)
 - [x] 5.3 Search all files under `content/` for remaining references to `/finale` merging PRs or `/unleash` rejecting `opsx/*` branches (colloquial uses of "ship" that don't imply PR merging are acceptable)
 <!-- spec-review: passed -->
 <!-- code-review: passed -->

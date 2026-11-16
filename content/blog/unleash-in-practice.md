@@ -8,11 +8,13 @@ draft: false
 weight: 80
 toc: true
 categories: ["Engineering"]
-tags: ["unleash", "swarm", "autonomous", "pipeline", "speckit"]
+tags: ["unleash", "swarm", "autonomous", "pipeline", "openspec"]
 contributors: ["Unbound Force"]
 ---
 
 ## The Manual Pipeline Problem
+
+> Historical walkthrough: the stages below describe the earlier specification pipeline. For current work, create an OpenSpec change with `/opsx-propose`, implement with `/opsx-apply` or `/unleash`, check it with `/opsx-verify`, and run `/opsx-archive` after merge. See [Common Workflows](/docs/getting-started/common-workflows/) for current instructions.
 
 AI coding agents are powerful, but they are not self-directing. A typical agent-assisted development workflow looks like this:
 
@@ -33,7 +35,7 @@ The question is not whether each step is valuable — it is. The question is whe
 
 ## What /unleash Does
 
-`/unleash` is a single command that takes a Speckit specification and runs the entire pipeline autonomously — from clarification through implementation, testing, review, and demo. It handles the transitions, evaluates the outputs, and makes the proceed/stop decisions at each stage.
+The earlier `/unleash` workflow took a feature specification through the pipeline autonomously — from clarification through implementation, testing, review, and demo. It handled the transitions, evaluated the outputs, and made the proceed/stop decisions at each stage.
 
 When it encounters something that genuinely requires human judgment — an unanswerable question, a critical spec finding, a persistent code review issue — it exits cleanly with context about what happened and what to do next. When you re-run `/unleash`, it detects which stages are complete and resumes from where it left off.
 
@@ -75,7 +77,7 @@ Generates a dependency-ordered task list (`tasks.md`) organized by user story. E
 
 Runs [The Divisor](/docs/team/the-divisor/) review council in spec review mode. The council's personas evaluate the spec artifacts for completeness, testability, ambiguity, governance gaps, and cross-spec consistency.
 
-LOW and MEDIUM findings are auto-fixed. If HIGH or CRITICAL findings remain, the pipeline exits with the findings and suggests running `/speckit.clarify` to address them.
+LOW and MEDIUM findings are auto-fixed. If HIGH or CRITICAL findings remain, the pipeline exits with the findings for clarification and correction before proceeding.
 
 ### 5. Implement
 
@@ -112,19 +114,19 @@ Presents structured output:
 - **How to verify** — steps from the quickstart or acceptance scenarios
 - **Key files changed** — grouped by directory
 - **Test results** — pass/fail summary
-- **Next steps** — run `/finale` to ship, or `/speckit.clarify` to iterate
+- **Next steps** — address remaining specification questions or prepare the change for shipping
 
 ## Where It Pauses
 
 `/unleash` is autonomous, not unattended. It exits cleanly at five specific points where human judgment is needed:
 
-| Exit Point                  | Why It Pauses                                 | What You Do                                       |
-| --------------------------- | --------------------------------------------- | ------------------------------------------------- |
-| Unanswerable clarification  | Dewey could not resolve a spec question       | Answer the question in spec.md, re-run `/unleash` |
-| HIGH/CRITICAL spec findings | Review council found serious spec issues      | Run `/speckit.clarify`, re-run `/unleash`         |
-| Build/test failure          | CI commands failed after a phase              | Fix the failure, re-run `/unleash`                |
-| Merge conflict              | Parallel workers produced conflicting changes | Resolve conflicts, re-run `/unleash`              |
-| Exhausted code review       | 3 review iterations without full approval     | Fix remaining findings, re-run `/unleash`         |
+| Exit Point                  | Why It Pauses                                 | What You Do                                              |
+| --------------------------- | --------------------------------------------- | -------------------------------------------------------- |
+| Unanswerable clarification  | Dewey could not resolve a spec question       | Answer the question in spec.md, re-run `/unleash`        |
+| HIGH/CRITICAL spec findings | Review council found serious spec issues      | Resolve the findings in the artifacts, re-run `/unleash` |
+| Build/test failure          | CI commands failed after a phase              | Fix the failure, re-run `/unleash`                       |
+| Merge conflict              | Parallel workers produced conflicting changes | Resolve conflicts, re-run `/unleash`                     |
+| Exhausted code review       | 3 review iterations without full approval     | Fix remaining findings, re-run `/unleash`                |
 
 Every exit message tells you what happened, what to do next, and how to resume. Re-running `/unleash` after fixing the issue skips all completed stages and picks up exactly where it left off.
 
@@ -154,7 +156,7 @@ The pipeline works with all four tools, with none of them, or with any combinati
 
 ## Where It Works Best
 
-`/unleash` works best for well-scoped features with clear specifications — the kind of work where a senior developer could describe the approach in a few sentences. Complex cross-cutting refactors, ambiguous requirements, and large-scale architectural changes still benefit from the step-by-step [Speckit commands](/docs/getting-started/developer/#working-with-speckit) where you control each transition. The exit-and-resume design means you can start with `/unleash` and drop to manual control if the pipeline pauses at a point where you want finer-grained direction.
+`/unleash` works best for well-scoped features with clear specifications — the kind of work where a senior developer could describe the approach in a few sentences. Complex cross-cutting refactors, ambiguous requirements, and large-scale architectural changes benefit from explicit review of the [OpenSpec change artifacts](/docs/getting-started/developer/#working-with-openspec) before implementation. Use `/opsx-apply` when you want manual control over task execution rather than autonomous orchestration.
 
 ## Getting Started
 
@@ -165,10 +167,10 @@ brew install unbound-force/tap/unbound-force
 uf setup
 ```
 
-Create a feature specification:
+For the current workflow, create an OpenSpec change:
 
 ```text
-/speckit.specify
+/opsx-propose add-dashboard-export
 ```
 
 Describe what you want to build. Then unleash the swarm:
@@ -176,5 +178,7 @@ Describe what you want to build. Then unleash the swarm:
 ```text
 /unleash
 ```
+
+Verify the result with `/opsx-verify` before shipping, then run `/opsx-archive` after merge.
 
 See the [Quick Start guide](/docs/getting-started/quick-start/) for detailed installation and setup instructions, or read the [Common Workflows](/docs/getting-started/common-workflows/) reference for the full pipeline documentation.

@@ -10,32 +10,29 @@ toc: true
 
 ## Autonomous Pipeline (`/unleash`)
 
-`/unleash` is the autonomous Speckit pipeline execution command. It takes a spec from draft to demo-ready code in a single command, orchestrating the full pipeline with graceful exit points and full resumability.
+`/unleash` coordinates autonomous implementation of an OpenSpec change. Clarify requirements before `/opsx-propose`, which prepares the proposal, specifications, design, and tasks. Review those artifacts and resolve remaining ambiguities before running `/unleash` or using `/opsx-apply` for manual task execution. Use `/opsx-verify` to check the result, and `/opsx-archive` after completion and merge.
 
 ### The Pipeline
 
-| Step | Name              | Description                                                                                                                                                                        |
-| ---- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | **Clarify**       | Scans spec.md for `[NEEDS CLARIFICATION]` markers. Uses Dewey semantic search to auto-resolve. Exits to human only for unanswerable questions.                                     |
-| 2    | **Plan**          | Delegates to Cobalt-Crush to generate `plan.md` via `/speckit.plan`                                                                                                                |
-| 3    | **Tasks**         | Delegates to Cobalt-Crush to generate `tasks.md` via `/speckit.tasks`                                                                                                              |
-| 4    | **Spec Review**   | Runs the review council in Spec Review Mode. Auto-fixes LOW/MEDIUM findings. Exits on HIGH/CRITICAL.                                                                               |
-| 5    | **Implement**     | Parses `tasks.md` for phases. `[P]` parallel tasks run via Replicator worktrees (up to 4 concurrent workers). Phase checkpoints run CI commands derived from `.github/workflows/`. |
-| 6    | **Code Review**   | Runs the review council in Code Review Mode. Includes Phase 1a CI hard gate, Phase 1b Gaze quality analysis, and Divisor agent reviews. Up to 3 fix iterations.                    |
-| 7    | **Retrospective** | Analyzes the session and stores learnings in Dewey semantic memory.                                                                                                                |
-| 8    | **Demo**          | Presents structured demo instructions: what was built, how to verify, key files changed, and next steps.                                                                           |
+| Step | Name              | Description                                                                                                                                                                                                  |
+| ---- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | **Spec Review**   | Runs the review council in Spec Review Mode on the prepared artifacts. Auto-fixes LOW/MEDIUM findings. Exits on HIGH/CRITICAL.                                                                               |
+| 2    | **Implement**     | Follows `/opsx-apply` and parses `tasks.md` for phases. `[P]` parallel tasks run via Replicator worktrees (up to 4 concurrent workers). Phase checkpoints run CI commands derived from `.github/workflows/`. |
+| 3    | **Code Review**   | Runs the review council in Code Review Mode. Includes Phase 1a CI hard gate, optional Phase 1b Gaze quality analysis, and Divisor agent reviews. Up to 3 fix iterations.                                     |
+| 4    | **Retrospective** | Analyzes the session and stores learnings in Dewey semantic memory when available; otherwise displays them without storage.                                                                                  |
+| 5    | **Demo**          | Presents structured demo instructions: what was built, how to verify, key files changed, and next steps.                                                                                                     |
 
 ### Key Capabilities
 
-- **Dewey-powered clarification**: Auto-resolves spec ambiguities using semantic search. Falls back to human input when Dewey is unavailable or results are insufficient.
+- **Prepared-artifact handoff**: Starts with spec review, not clarification or planning. Proposal, specifications, design, and tasks must already be prepared by `/opsx-propose`.
 - **Parallel Replicator workers**: `[P]`-marked tasks execute in parallel via git worktrees (up to 4 concurrent). Falls back to sequential when Replicator is not installed.
-- **Resumability**: Probes filesystem state on startup to detect completed steps. Resumes from the first incomplete step. All progress is persisted in spec artifacts (plan.md, tasks.md checkboxes, spec-review marker).
-- **Graceful exit points**: Every exit (unanswerable questions, HIGH/CRITICAL findings, worker failures, merge conflicts, test failures, review exhaustion) includes actionable next steps and resume instructions.
+- **Resumability**: Probes the active change artifacts to detect completed work. Task checkboxes in `openspec/changes/<name>/tasks.md` preserve implementation progress.
+- **Graceful exit points**: Every exit (missing tasks, HIGH/CRITICAL findings, worker failures, merge conflicts, test failures, review exhaustion) includes actionable next steps and resume instructions.
 - **CI command derivation**: Build and test commands are derived from `.github/workflows/` files, not hardcoded.
 
 ### Branch Safety
 
-`/unleash` works with both Speckit (`NNN-*`) and OpenSpec (`opsx/*`) feature branches. It never runs on `main`. For Speckit branches, it validates that `spec.md` exists. For OpenSpec branches, it detects the change name from the branch (`opsx/<name>`) and reads tasks from `openspec/changes/<name>/tasks.md`.
+`/unleash` works on OpenSpec (`opsx/*`) feature branches, never on `main`. It detects the change name from the branch (`opsx/<name>`) and reads tasks from `openspec/changes/<name>/tasks.md`.
 
 After `/unleash` completes, the demo step suggests running `/finale` to commit, push, and create a PR.
 
@@ -66,11 +63,11 @@ See also: [From Spec to Demo in One Command](/blog/unleash-in-practice/) — a n
 - Never commits without user approval of the commit message
 - If any step fails, stops immediately with context and options
 
-`/finale` works with both Speckit (`NNN-*`) and OpenSpec (`opsx/*`) branches. It is the natural complement to `/unleash` — `/unleash` builds, `/finale` wraps up the branch and creates a PR for review.
+`/finale` works with OpenSpec (`opsx/*`) branches. It is the natural complement to `/unleash` — `/unleash` builds, `/finale` wraps up the branch and creates a PR for review. Verify the change with `/opsx-verify` before shipping, then archive it with `/opsx-archive` after merge.
 
 ## New Feature (End-to-End) {#new-feature-end-to-end}
 
-> For autonomous execution of this entire workflow in one command, use [`/unleash`](#autonomous-pipeline-unleash). The manual flow below gives you step-by-step control over each stage.
+> After preparing the OpenSpec change artifacts, use [`/unleash`](#autonomous-pipeline-unleash) for autonomous spec review, implementation, code review, retrospective, and demo instructions. It does not run the entire hero lifecycle below or make the human acceptance decision.
 
 The full hero lifecycle for a new feature follows six stages. Each stage is owned by a specific hero, and each produces artifacts consumed by the next. Every stage has an **execution mode** -- either `[human]` (driven by the operator) or `[swarm]` (run autonomously by the agent swarm).
 
@@ -92,9 +89,9 @@ The human seeds the feature with 1-2 sentences:
 For projects without [Dewey](/docs/getting-started/knowledge/) configured, the define stage runs in `[human]` mode. The human drives specification creation directly:
 
 - Create or prioritize a backlog item using Muti-Mind's priority scoring (Business Value, Risk, Dependency Weight, Urgency, Effort)
-- Initiate the specification: `/speckit.specify`
+- Create the change artifacts: `/opsx-propose add-dashboard-export`
 - Provide acceptance criteria in Given/When/Then format
-- Clarify ambiguities: `/speckit.clarify`
+- Resolve ambiguities in the proposal and specification scenarios before implementation
 
 After the human completes this stage, the swarm takes over automatically.
 
@@ -114,16 +111,14 @@ The specification review checkpoint is off by default. Enable it per-workflow wh
 
 The [Developer (Cobalt-Crush)](/docs/getting-started/developer/) creates the technical plan and implements the feature.
 
-- Generate the implementation plan: `/speckit.plan`
-- Generate tasks: `/speckit.tasks`
-- Run cross-artifact analysis: `/speckit.analyze`
-- Validate checklists: `/speckit.checklist`
-- Execute implementation: `/speckit.implement` or `/cobalt-crush`
+- Review the proposal, specifications, design, and tasks produced by `/opsx-propose`
+- Resolve inconsistencies and confirm constitution alignment before implementation
+- Execute implementation: `/opsx-apply` or `/cobalt-crush`
 - For parallel work: use `/unleash` which handles parallel task execution automatically
 - Mark each task `[x]` in tasks.md as it completes
 - Run tests after each phase checkpoint
 
-**Output**: plan.md + tasks.md + code + tests
+**Output**: Updated change tasks + code + tests
 
 ### 3. Validate (Tester) `[swarm]`
 
@@ -158,6 +153,7 @@ After the swarm completes review, the workflow pauses and returns control to the
 
 The Product Owner evaluates the completed increment against acceptance criteria.
 
+- Run `/opsx-verify` to check implementation completeness, correctness, and coherence against the change artifacts
 - Reviews the Gaze quality report
 - Reviews the Divisor review verdict
 - Compares results against the backlog item's acceptance criteria
@@ -299,7 +295,7 @@ Dewey operates on a [3-tier graceful degradation](/docs/getting-started/knowledg
 
 ## Bug Fix (Tactical)
 
-For bug fixes and small changes (fewer than 3 user stories), use the OpenSpec tactical workflow instead of the full Speckit pipeline.
+Use the same OpenSpec lifecycle for bug fixes and larger features. For a focused fix, keep the proposal, specifications, design, and tasks proportional to the change.
 
 ### 1. Propose
 
@@ -313,21 +309,30 @@ This creates `openspec/changes/fix-auth-timeout/` with:
 
 - `proposal.md` -- What and why
 - `design.md` -- Technical approach
+- `specs/` -- Requirement changes and acceptance scenarios
 - `tasks.md` -- Implementation steps
 
-This creates an `opsx/fix-auth-timeout` branch and checks it out automatically. The `opsx/` prefix distinguishes OpenSpec branches from Speckit branches (`NNN-<short-name>`) in `git branch` output.
+This creates an `opsx/fix-auth-timeout` branch and checks it out automatically. The branch identifies the active change throughout implementation.
 
 ### 2. Implement
 
-Invoke Cobalt-Crush to implement with convention pack adherence:
+Apply the implementation tasks:
 
 ```text
-/cobalt-crush
+/opsx-apply
 ```
 
-`/cobalt-crush` detects the active OpenSpec change and implements the tasks through the `cobalt-crush-dev` agent, which loads [convention packs](/docs/getting-started/developer/#convention-packs) and applies the project's coding standards. This gives you the quality enforcement that a bare `/opsx-apply` would skip. Before proceeding, it validates that you are on the correct `opsx/<name>` branch.
+Work from the active change's `tasks.md` and follow the project's [convention packs](/docs/getting-started/developer/#convention-packs). Use `/cobalt-crush` when you want the developer persona. Keep implementation on the correct `opsx/<name>` branch.
 
-### 3. Review
+### 3. Verify and Review
+
+Check the implementation against the change artifacts:
+
+```text
+/opsx-verify
+```
+
+Resolve missing tasks, unmet requirements, and design inconsistencies before shipping.
 
 Run the review council to validate the fix:
 
@@ -445,10 +450,10 @@ Doctor checks 7 areas and shows pass/warn/fail for each with install hints. Fix 
 
 ### 4. Start Working
 
-Open OpenCode and start with the Speckit pipeline for a new feature:
+Open OpenCode and propose a new feature:
 
 ```text
-/speckit.specify
+/opsx-propose add-dashboard-export
 ```
 
 Then run the full autonomous pipeline:
@@ -459,7 +464,7 @@ Then run the full autonomous pipeline:
 
 ## Next Steps
 
-- [Developer Guide](/docs/getting-started/developer/) -- Daily workflow, Speckit, Replicator, and Cobalt-Crush
+- [Developer Guide](/docs/getting-started/developer/) -- Daily workflow, OpenSpec, Replicator, and Cobalt-Crush
 - [Tester Guide](/docs/getting-started/tester/) -- Gaze quality analysis and CI integration
 - [Product Owner Guide](/docs/getting-started/product-owner/) -- Muti-Mind and backlog management
 - [Product Manager Guide](/docs/getting-started/product-manager/) -- Mx F metrics and coaching

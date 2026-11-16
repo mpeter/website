@@ -141,7 +141,7 @@ The constitution sits at the top of a layered governance model. Each layer const
 1. **Constitution** — core principles (this document)
 2. **Convention packs** — portable coding standards (MUST/SHOULD/MAY rules)
 3. **Agent personas** — individual hero configurations and behavioral constraints
-4. **Commands** — workflow orchestration (`/unleash`, `/review-council`, `/speckit.*`)
+4. **Commands** — workflow orchestration (`/unleash`, `/review-council`, `/opsx-propose`, `/opsx-apply`, `/opsx-verify`, `/opsx-archive`)
 5. **CI pipelines** — automated deterministic checks
 
 A convention pack cannot override a constitutional principle. A command cannot bypass a convention pack rule. This layered model ensures that organizational intent flows consistently from principles to implementation. The constitution and governance model are decay-resistant — they encode organizational values and process rules that persist regardless of how AI model capabilities evolve.

@@ -24,8 +24,8 @@ You are a senior technical writer reviewing this project's documentation. Your j
 Before reviewing, read:
 
 1. `AGENTS.md` -- Behavioral Constraints, Content Conventions, Markdown Rules, Project Structure
-2. `.specify/memory/constitution.md` -- Constitution (if present)
-3. The relevant spec, plan, and tasks files under `specs/` for the current work
+2. `openspec/constitution.md` -- Constitution (if present)
+3. The selected change's `openspec/changes/<change>/proposal.md`, `design.md`, `tasks.md`, and `specs/<capability>/spec.md`, with canonical `openspec/specs/<capability>/spec.md` context
 4. `.opencode/uf/packs/` -- Convention pack for this project (if present). Skip pack-dependent checklist items marked with **[PACK]** if no pack is loaded.
 
 ---
@@ -92,7 +92,7 @@ Use this mode when the caller instructs you to review specification artifacts in
 
 ### Review Scope
 
-Read **all files** under `specs/` recursively. Also read the constitution and `AGENTS.md` for constraint context.
+Read the selected active change's `openspec/changes/<change>/proposal.md`, `design.md`, `tasks.md`, and `specs/<capability>/spec.md`. Read related canonical `openspec/specs/<capability>/spec.md` files for context, plus `openspec/constitution.md` and `AGENTS.md`. Keep review findings scoped to the selected change; do not scan unrelated changes or archived artifacts.
 
 Do NOT use `git diff` or review code files. Your scope is exclusively the specification artifacts.
 
@@ -138,7 +138,7 @@ For each finding, provide:
 ```
 ### [SEVERITY] Finding Title
 
-**File**: `path/to/file:line` (or `specs/NNN-feature/artifact.md` in spec review mode)
+**File**: `path/to/file:line` (or `openspec/changes/<change>/artifact.md` in spec review mode)
 **Principle**: Which documentation principle is violated (Information Architecture, Audience Alignment, Accuracy, Completeness, Formatting, Anti-Pattern)
 **Description**: What the issue is and why it matters for the reader
 **Recommendation**: How to fix it, with specific suggested text where appropriate

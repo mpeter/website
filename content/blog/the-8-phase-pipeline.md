@@ -8,11 +8,13 @@ draft: false
 weight: 42
 toc: true
 categories: ["Engineering"]
-tags: ["pipeline", "speckit", "agents", "architecture", "unleash"]
+tags: ["pipeline", "openspec", "agents", "architecture", "unleash"]
 contributors: ["Unbound Force"]
 ---
 
 ## The Two-Phase Illusion
+
+> Historical design note: this article describes the earlier eight-phase workflow and the reasoning behind its checkpoints. Current development uses OpenSpec: `/opsx-propose`, `/opsx-apply`, `/opsx-verify`, and `/opsx-archive`. See the [developer guide](/docs/getting-started/developer/#working-with-openspec) for current instructions.
 
 Every team building AI agent workflows discovers the same thing: letting an agent plan and execute in the same pass produces unreliable output. The planning step must be separate, with its output reviewed before implementation begins. OpenAI, Anthropic, and ThoughtWorks all arrived at this conclusion independently (Yanli Liu, "Harness Engineering," *AI Advances*, Apr 2026).
 
@@ -24,9 +26,9 @@ When a problem surfaces during implementation — an incorrect assumption, a mis
 
 ## Eight Phases, Eight Checkpoints
 
-The Speckit pipeline decomposes plan/execute into eight distinct phases:
+The earlier specification pipeline decomposed plan/execute into eight distinct phases:
 
-```
+```text
 constitution → specify → clarify → plan → tasks → analyze → checklist → implement
 ```
 
@@ -82,7 +84,7 @@ Execute the plan task by task, with CI checkpoints between task phases.
 
 ## How the Gates Are Enforced
 
-Phase boundaries are enforced through multiple mechanisms, not just instructions:
+The earlier workflow enforced phase boundaries through multiple mechanisms, not just instructions:
 
 **Branch naming conventions** gate pipeline entry. A branch named `003-feature-name` signals that the project has a specification with that number. The branch name is checked at every pipeline step.
 
@@ -98,8 +100,8 @@ Phase boundaries are enforced through multiple mechanisms, not just instructions
 
 The difference between two phases and eight phases is the difference between "review the plan" and "review each decision in the plan separately." With two phases, a spec ambiguity discovered during implementation requires replanning everything. With eight phases, it requires returning to the clarify phase — the plan, tasks, and analysis may or may not need updating, but the decision surface is narrower.
 
-This granularity is expensive. Eight phases mean more artifacts, more reviews, more checkpoints. For a one-function bug fix, it is overkill — which is why Unbound Force offers [OpenSpec](/docs/getting-started/common-workflows/#bug-fix-tactical) as a lighter alternative for tactical changes.
+This granularity is expensive. Eight phases mean more artifacts, more reviews, more checkpoints. For a one-function bug fix, it is overkill. Current development uses [OpenSpec](/docs/getting-started/developer/#working-with-openspec) for both features and tactical changes, scaling the depth of the proposal and design to the work.
 
 But for complex features — the kind that involve multiple files, architectural decisions, and coordination across components — the eight-phase pipeline prevents a specific class of failures: cascading errors from uncheckpointed decisions. Every decision point becomes a review point. Every review point becomes an opportunity to catch mistakes before they compound.
 
-The [/unleash](/docs/getting-started/common-workflows/#autonomous-pipeline-unleash) command orchestrates all eight phases with six defined exit points where human judgment is required. See the [operational walkthrough](/blog/unleash-in-practice/) for how the pipeline works in practice.
+The earlier orchestration informed [/unleash](/docs/getting-started/common-workflows/#autonomous-pipeline-unleash): automate routine transitions, but stop when human judgment is required. See the [current workflow reference](/docs/getting-started/common-workflows/) for OpenSpec change execution and verification.

@@ -318,7 +318,7 @@ Markdown formatting.
 - **RS-004** [SHOULD] When writing documentation about
   features that span multiple repositories (e.g., how
   `uf init` configures Dewey, how `/unleash` invokes
-  Speckit commands), agents SHOULD use
+  OpenSpec commands), agents SHOULD use
   `dewey_dewey_semantic_search` to find the relevant
   specs, design documents, and PRs across repos before
   synthesizing the documentation. This ensures the
